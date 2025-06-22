@@ -1,74 +1,85 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* Claude's exact color palette - Light Mode */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --primary: 22.8 95.8% 52.4%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --ring: 22.8 95.8% 52.4%;
-    --radius: 0.5rem;
+    --ring: 25 95% 53%;
+    --radius: 0.75rem;
+    
+    /* Claude's sidebar colors */
+    --sidebar: 240 4.8% 97.6%;
+    --sidebar-foreground: 240 10% 3.9%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-primary: 25 95% 53%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-ring: 25 95% 53%;
+    
+    /* Claude's chat colors */
+    --chat-user-bg: 25 95% 53%;
+    --chat-user-bg-opacity: 0.08;
+    --chat-assistant-bg: 240 4.8% 95.9%;
+    --chat-assistant-bg-opacity: 1;
+  }
+
+  .dark {
+    /* Claude's exact color palette - Dark Mode */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 240 10% 3.9%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 25 95% 53%;
+    
+    /* Claude's sidebar colors - Dark */
+    --sidebar: 240 10% 3.9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-primary: 25 95% 53%;
+    --sidebar-primary-foreground: 240 10% 3.9%;
+    --sidebar-ring: 25 95% 53%;
+    
+    /* Claude's chat colors - Dark */
+    --chat-user-bg: 25 95% 53%;
+    --chat-user-bg-opacity: 0.15;
+    --chat-assistant-bg: 240 3.7% 15.9%;
+    --chat-assistant-bg-opacity: 1;
   }
 }
 
@@ -76,19 +87,219 @@
   * {
     @apply border-border;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Claude's typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight text-foreground;
+  }
+  
+  /* Claude's prose styles */
+  .prose {
+    @apply text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  }
+  
+  .prose p {
+    @apply mb-4 leading-relaxed text-foreground;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  
+  .prose h1 {
+    @apply text-2xl font-semibold mb-6 mt-8 text-foreground;
+  }
+  
+  .prose h2 {
+    @apply text-xl font-semibold mb-4 mt-6 text-foreground;
+  }
+  
+  .prose h3 {
+    @apply text-lg font-semibold mb-3 mt-5 text-foreground;
+  }
+  
+  .prose ul {
+    @apply list-disc pl-6 mb-4 space-y-1 text-foreground;
+  }
+  
+  .prose ol {
+    @apply list-decimal pl-6 mb-4 space-y-1 text-foreground;
+  }
+  
+  .prose blockquote {
+    @apply border-l-4 border-muted pl-4 italic my-4 text-muted-foreground;
+  }
+  
+  .prose code {
+    @apply bg-muted px-1.5 py-0.5 rounded font-mono text-sm text-foreground;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Andale Mono', monospace;
+  }
+  
+  .prose pre {
+    @apply bg-muted p-4 rounded-lg overflow-x-auto;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Andale Mono', monospace;
+  }
+  
+  .prose pre code {
+    @apply bg-transparent p-0 text-foreground;
+  }
+  
+  /* Claude's link styles */
+  .prose a {
+    @apply text-primary hover:text-primary/80 underline decoration-primary/30 hover:decoration-primary/60 transition-colors;
+  }
+  
+  /* Claude's table styles */
+  .prose table {
+    @apply w-full border-collapse border border-border;
+  }
+  
+  .prose th {
+    @apply bg-muted px-3 py-2 text-left font-medium text-foreground border border-border;
+  }
+  
+  .prose td {
+    @apply px-3 py-2 border border-border text-foreground;
+  }
+}
+
+@layer components {
+  /* Claude's button styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  /* Claude's input styles */
+  .input {
+    @apply bg-background border border-input px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors duration-200;
+  }
+  
+  /* Claude's card styles */
+  .card {
+    @apply bg-card border border-border rounded-lg shadow-sm;
+  }
+  
+  /* Claude's chat message styles */
+  .chat-message-user {
+    @apply bg-primary/8 border border-primary/20 rounded-2xl;
+  }
+  
+  .chat-message-assistant {
+    @apply bg-muted border border-border rounded-2xl;
+  }
+  
+  /* Claude's sidebar styles */
+  .sidebar {
+    @apply bg-sidebar border-r border-sidebar-border;
+  }
+  
+  /* Claude's loading animation */
+  .claude-loading {
+    @apply flex items-center gap-2;
+  }
+  
+  .claude-loading-dot {
+    @apply w-2 h-2 bg-muted-foreground rounded-full animate-bounce;
+  }
+  
+  /* Claude's copy button */
+  .copy-button {
+    @apply absolute top-2 right-2 p-1.5 rounded-md text-muted-foreground bg-transparent hover:bg-muted hover:text-foreground transition-colors duration-200 opacity-0 group-hover:opacity-100;
+  }
+  
+  /* Claude's model selector */
+  .model-selector {
+    @apply relative inline-flex items-center text-sm text-muted-foreground hover:text-foreground px-3 py-1.5 rounded-lg hover:bg-accent transition-colors duration-200;
+  }
+  
+  .model-dropdown {
+    @apply absolute bottom-full mb-2 left-0 w-56 bg-popover border border-border rounded-lg shadow-lg py-1 z-50;
+  }
+  
+  .model-option {
+    @apply block w-full text-left px-4 py-2 text-sm hover:bg-accent transition-colors duration-200;
+  }
+  
+  /* Claude's input area */
+  .chat-input-area {
+    @apply border-t border-border bg-background;
+  }
+  
+  .chat-input-container {
+    @apply relative border border-border rounded-2xl p-4 flex items-end gap-3 bg-card;
+  }
+  
+  .chat-textarea {
+    @apply w-full resize-none border-0 focus:ring-0 px-0 py-2 text-base bg-transparent focus:outline-none placeholder:text-muted-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  
+  .chat-send-button {
+    @apply bg-primary text-primary-foreground p-3 rounded-xl hover:bg-primary/90 disabled:bg-muted disabled:text-muted-foreground transition-colors duration-200;
+  }
+  
+  /* Claude's welcome screen */
+  .welcome-screen {
+    @apply flex items-center justify-center h-full;
+  }
+  
+  .welcome-content {
+    @apply text-center max-w-md;
+  }
+  
+  .welcome-icon {
+    @apply w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6;
+  }
+  
+  .welcome-title {
+    @apply text-3xl font-semibold text-foreground mb-2;
+  }
+  
+  .welcome-subtitle {
+    @apply text-muted-foreground text-lg;
   }
 }
 
 @layer utilities {
   .copy-btn {
-    @apply absolute top-2 right-2 p-1.5 rounded-md text-muted-foreground bg-transparent transition-colors;
+    @apply absolute top-2 right-2 p-1.5 rounded-md text-muted-foreground bg-transparent transition-colors duration-200;
   }
+  
   .copy-btn:hover {
     @apply bg-muted text-foreground;
   }
+  
   .copy-btn:focus {
     @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
-}
+  
+  /* Claude's specific utilities */
+  .claude-gradient {
+    background: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(25 95% 63%) 100%);
+  }
+  
+  .claude-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .claude-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+} 

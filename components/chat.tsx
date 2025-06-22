@@ -54,104 +54,169 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
+    <div className="flex flex-col h-screen bg-background text-foreground font-sans">
       {/* Chat Messages */}
-      <div className="flex-grow overflow-y-auto p-6 space-y-6">
-        {messages.length === 0 && !isLoading ? (
-          <div className="flex-grow flex items-center justify-center">
-            <div className="text-center">
-              <div className="flex justify-center items-center mb-4">
-                <Sparkles className="text-primary w-10 h-10 mr-2" />
-                <h1 className="text-4xl font-serif text-foreground/80">Coffee and Claude time?</h1>
-              </div>
-            </div>
-          </div>
-        ) : (
-          messages.map(m => (
-            <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`relative max-w-4xl p-4 rounded-lg ${m.role === 'user' ? 'bg-primary/10' : 'bg-muted'}`}>
-                <p className="font-semibold capitalize mb-3">{m.role === 'assistant' ? 'Claude' : 'You'}</p>
-                <div className="prose-content">
-                  {m.role === 'user' ? (
-                    <p className="whitespace-pre-wrap">{m.content}</p>
-                  ) : (
-                    <MarkdownRenderer content={m.content} />
-                  )}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto p-6 space-y-6">
+          {messages.length === 0 && !isLoading ? (
+            <div className="welcome-screen">
+              <div className="welcome-content">
+                <div className="welcome-icon">
+                  <Sparkles className="text-primary w-8 h-8" />
                 </div>
-                {m.role === 'assistant' && (
-                  <button 
-                    onClick={() => handleCopyToClipboard(m.content)}
-                    className="absolute top-2 right-2 p-1.5 rounded hover:bg-black/10 dark:hover:bg-white/10 transition-colors opacity-70 hover:opacity-100"
-                    title="Copy message"
-                  >
-                    {copied === m.content ? <Check size={16} /> : <Copy size={16} />}
-                  </button>
-                )}
+                <h1 className="welcome-title">Coffee and Claude time?</h1>
+                <p className="welcome-subtitle">I&apos;m here to help you think, create, and explore ideas.</p>
               </div>
             </div>
-          ))
-        )}
-        {isLoading && <div className="flex justify-center items-center"><p>Thinking...</p></div>}
-        {error && <div className="text-red-500 text-center">Error: {error.message}</div>}
+          ) : (
+            messages.map((m: { id: string; role: string; content: string }) => (
+              <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`relative max-w-3xl group ${m.role === 'user' ? 'chat-message-user' : 'chat-message-assistant'} p-6`}>
+                  <div className="flex items-start gap-3">
+                    {m.role === 'assistant' && (
+                      <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <Sparkles className="text-primary w-4 h-4" />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-semibold text-sm text-foreground">
+                          {m.role === 'assistant' ? 'Claude' : 'You'}
+                        </span>
+                        {m.role === 'assistant' && (
+                          <button 
+                            onClick={() => handleCopyToClipboard(m.content)}
+                            className="copy-button"
+                            title="Copy message"
+                          >
+                            {copied === m.content ? (
+                              <Check size={14} className="text-green-600" />
+                            ) : (
+                              <Copy size={14} className="text-muted-foreground" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      <div className="prose prose-sm max-w-none">
+                        {m.role === 'user' ? (
+                          <p className="text-foreground leading-relaxed whitespace-pre-wrap">{m.content}</p>
+                        ) : (
+                          <MarkdownRenderer content={m.content} />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="chat-message-assistant p-6 max-w-3xl">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <Sparkles className="text-primary w-4 h-4" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="font-semibold text-sm text-foreground">Claude</span>
+                    </div>
+                    <div className="claude-loading">
+                      <div className="flex space-x-1">
+                        <div className="claude-loading-dot"></div>
+                        <div className="claude-loading-dot" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="claude-loading-dot" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                      <span className="text-sm text-muted-foreground">Thinking...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {error && (
+            <div className="flex justify-center">
+              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 max-w-md">
+                <p className="text-destructive text-sm text-center">Error: {error.message}</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Input Area */}
-      <div className="w-full px-4 pb-4 max-w-3xl mx-auto">
-        <form onSubmit={handleFormSubmit}>
-          <div className="relative border border-border rounded-xl p-2 flex items-center bg-background">
-            <div className="flex items-center space-x-1 pl-1">
-              <button type="button" className="p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-muted">
-                <Plus size={20} />
-              </button>
-              <button type="button" className="p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-muted">
-                <Settings2 size={20} />
-              </button>
-            </div>
-            <textarea
-              className="w-full resize-none border-0 focus:ring-0 px-3 py-3 text-base bg-transparent focus:outline-none"
-              placeholder="Message Claude..."
-              rows={1}
-              style={{ minHeight: '52px' }}
-              value={input}
-              onChange={handleInputChange}
-              onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
+      <div className="chat-input-area">
+        <div className="max-w-4xl mx-auto p-6">
+          <form onSubmit={handleFormSubmit}>
+            <div className="chat-input-container">
+              <div className="flex items-center gap-1">
+                <button type="button" className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-accent transition-colors duration-200">
+                  <Plus size={20} />
+                </button>
+                <button type="button" className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-accent transition-colors duration-200">
+                  <Settings2 size={20} />
+                </button>
+              </div>
+              <div className="flex-1">
+                <textarea
+                  className="chat-textarea"
+                  placeholder="Message Claude..."
+                  rows={1}
+                  style={{ minHeight: '24px', maxHeight: '200px' }}
+                  value={input}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
-                      if(!isLoading) {
+                      if (!isLoading && input.trim()) {
                         const form = (e.target as HTMLTextAreaElement).closest('form');
                         if (form) {
                           form.requestSubmit();
                         }
                       }
-                  }
-              }}
-            />
-            <div className="flex items-center space-x-2 pr-1">
-              <div className="relative">
-                <button type="button" onClick={() => setIsModelSelectorOpen(!isModelSelectorOpen)} className="flex items-center text-sm text-muted-foreground hover:text-foreground">
-                  <span>{selectedModel.name}</span>
-                  <ChevronDown size={16} className="ml-1" />
-                </button>
-                {isModelSelectorOpen && (
-                  <div className="absolute bottom-full mb-2 w-48 bg-card border border-border rounded-lg shadow-lg">
-                    {models.map(model => (
-                      <button key={model.id} onClick={() => handleModelSelect(model)} className="block w-full text-left px-4 py-2 text-sm hover:bg-muted">
-                        {model.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                    }
+                  }}
+                />
               </div>
-              <button type="submit" disabled={isLoading || !input.trim()} className="bg-primary/80 text-primary-foreground p-2 rounded-lg hover:bg-primary disabled:bg-muted disabled:text-muted-foreground">
-                <ArrowUp size={20} />
-              </button>
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <button 
+                    type="button" 
+                    onClick={() => setIsModelSelectorOpen(!isModelSelectorOpen)} 
+                    className="model-selector"
+                  >
+                    <span className="font-medium">{selectedModel.name}</span>
+                    <ChevronDown size={16} className="ml-1" />
+                  </button>
+                  {isModelSelectorOpen && (
+                    <div className="model-dropdown">
+                      {models.map(model => (
+                        <button 
+                          key={model.id} 
+                          onClick={() => handleModelSelect(model)} 
+                          className="model-option"
+                        >
+                          {model.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button 
+                  type="submit" 
+                  disabled={isLoading || !input.trim()} 
+                  className="chat-send-button"
+                >
+                  <ArrowUp size={20} />
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
 
-        <p className="text-center text-xs text-muted-foreground mt-3">
-          Claude can make mistakes. Consider checking important information.
-        </p>
+          <p className="text-center text-xs text-muted-foreground mt-4">
+            Claude can make mistakes. Consider checking important information.
+          </p>
+        </div>
       </div>
     </div>
   );
